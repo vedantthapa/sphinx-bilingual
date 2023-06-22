@@ -10,24 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
       # Checks-out your repository under $GITHUB_WORKSPACE, which is where the next step will look for it.
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       
-      # Build the documentation as HTML.
-      - name: Build and Commit
-        id: build
-        uses: sphinx-notes/pages@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
         with:
-          publish: false
-          documentation_path: "docs/"
-          requirements_path: "./requirements.txt"
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install --yes jq curl wget
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      # Build documentation as HTML.
+      - name: Build
+        run: |
+          sphinx-build -b html docs/ site/en/
+          sphinx-build -b html -D language='fr' docs/ site/fr/
+          cp docs/_splashpage/index.html site/
 
       # Publish built docs to gh-pages branch.
       - name: Push changes
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ steps.build.outputs.artifact }}
+          publish_dir: ./site
