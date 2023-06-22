@@ -20,7 +20,6 @@ jobs:
       - name: Build and Commit
         uses: sphinx-notes/pages@v3
         with:
-          publish: false
           documentation_path: "docs/"
           requirements_path: "./requirements.txt"
 
