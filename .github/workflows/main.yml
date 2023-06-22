@@ -18,9 +18,10 @@ jobs:
       
       # Build the documentation as HTML.
       - name: Build and Commit
-        uses: sphinx-notes/pages@1.0
+        uses: sphinx-notes/pages@v3
         with:
           documentation_path: "docs/"
+          requirements_path: "./requirements.txt"
 
       # Publish built docs to gh-pages branch.
       - name: Push changes
