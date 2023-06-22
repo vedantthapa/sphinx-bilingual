@@ -1,0 +1,29 @@
+:py:mod:`hello`
+===============
+
+.. py:module:: hello
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   hello.say_hello
+
+
+
+.. py:function:: say_hello(name: str) -> str
+
+   Greets a person
+
+   :param name: name of the person
+   :type name: str
+
+   :returns: str
+
+
